@@ -8,13 +8,15 @@ public class ParticipantValidator{
 
     }
 
-    public static void validateEmail(String email){
+    public static boolean isValidEmail(String email){
         String EMAIL_PATTERN = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" 
         + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        if(!pattern.matcher(email).matches()){
-            throw new IllegalArgumentException("E-mail "+ email + " is invalid. Please try again.");
-        }
+
+        return pattern.matcher(email).matches();
+//        if(!pattern.matcher(email).matches()){
+//            throw new IllegalArgumentException("E-mail "+ email + " is invalid. Please try again.");
+//        }
     }
 
 

@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ import java.util.UUID;
  */
 public class EventMain{
 
+    private static EventsDB db = new EventsDB();
     private static int option;
 
     public static void main(String[] args) {
@@ -30,9 +32,15 @@ public class EventMain{
             EventMain.option = Integer.parseInt(option);
             // switch based on
             switch (EventMain.option) {
-                case 1 -> insert(scanner);
-                case 2 -> view(scanner);
-                case 3 -> System.out.println("See you later!!!");
+                case 1:
+                    insert(scanner);
+                    break;
+                case 2:
+                    view(scanner);
+                    break;
+                case 3:
+                    System.out.println("See you later!!!");
+                    break;
             }
         }
         while (EventMain.option != 3);
@@ -52,8 +60,11 @@ public class EventMain{
     private static void view(Scanner scanner){
         // figure out which table
         Character table = tablePrompt(scanner);
-        String tableName = table == 'A' ? "Events" : "Registered";
-        System.out.println("You selected to view the "+tableName+" table!");
+        if (table == 'A')
+            viewEvents();
+        else
+            viewParticipants();
+
     }
 
     private static void newEvent(Scanner scanner){
@@ -91,11 +102,10 @@ public class EventMain{
 //        } while (isValidDescription(description));
 
         String email = "";
-//        do {
+        do {
         System.out.println("Insert Event Host's Email");
         email = scanner.next();
-//        } while (isValidEmail(email));
-
+        } while (!ParticipantValidator.isValidEmail(email));
 
         // TODO: insert method
         addEvent();
@@ -193,9 +203,25 @@ public class EventMain{
     }
 
     /* Returns a table of participants currently registered */
-    public static void viewParticipants(){
+    public static void viewEvents(){
         //SQL command to view table
-        
+        try {
+            db.getEvents();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            System.out.println("SOMETHING WENT WRONG!!!!!");
+        }
+
     }
 
+    /* Returns a table of participants currently registered */
+    public static void viewParticipants(){
+        //SQL command to view table
+        try {
+            db.getParticipants();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            System.out.println("SOMETHING WENT WRONG!!!!!");
+        }
+    }
 }
