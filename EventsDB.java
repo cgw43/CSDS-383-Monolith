@@ -1,6 +1,5 @@
 import java.sql.*;
 
-
 public class EventsDB {
     
     private Connection connection;
@@ -11,16 +10,64 @@ public class EventsDB {
         initialize();
     }
 
+    /*
+     * Gets all events from events table and prints
+     */
     public void getEvents() throws SQLException {
         if (connection == null) {
             getConnection();
         }
-
         Statement st = connection.createStatement();
         ResultSet res = st.executeQuery("SELECT * FROM events");
         printReslultSet(res);
     }
 
+    /*
+     * Gets all registered participants from participants table and prints
+     */
+    public void getParticipants() throws SQLException {
+        if (connection == null) {
+            getConnection();
+        }
+        Statement st = connection.createStatement();
+        ResultSet res = st.executeQuery("SELECT participants.*, title FROM participants, events WHERE events.uuid = participants.eventID");
+        printReslultSet(res);
+    }
+
+    /*
+     * Inserts new event
+     */
+    public void createEvent(String uuid, String date, String time, String title, String description, String email) throws SQLException {
+        if (connection == null) {
+            getConnection();
+        }
+        PreparedStatement prep = connection.prepareStatement("INSERT INTO events values (?,?,?,?,?,?)");
+        prep.setString(1, uuid);
+        prep.setString(2, date);
+        prep.setString(3, time);
+        prep.setString(4, title);
+        prep.setString(5, description);
+        prep.setString(6, email);
+        prep.execute();
+        System.out.println("Event successfully created\n");
+    }
+
+    public void registerParticipant(String uuid, String eventID, String name, String email) throws SQLException {
+        if (connection == null) {
+            getConnection();
+        }
+        PreparedStatement prep = connection.prepareStatement("INSERT INTO participants values (?,?,?,?)");
+        prep.setString(1, uuid);
+        prep.setString(2, eventID);
+        prep.setString(3, name);
+        prep.setString(4, email);
+        prep.execute();
+        System.out.println("Participant successfully registered\n");
+    }
+
+    /*
+     * Checks if the database & tables exists and creates them if needed.
+     */
     private void initialize() throws SQLException {
         if (!hasData) {
             hasData = true;
@@ -76,7 +123,11 @@ public class EventsDB {
     public static void main(String[] args) {
         EventsDB test = new EventsDB();
         try {
-            test.getEvents();
+            // Examples of the possible queries
+            //test.createEvent("testid", "09-22-2023", "12:00 PM", "Test Event", "Test Event Description", "test@gmail.com");
+            //test.registerParticipant("participantID", "testid", "Test Participant", "participant@event.com");
+            //test.getEvents();
+            //test.getParticipants();
         } catch (Exception e) {
             e.printStackTrace();
         }
