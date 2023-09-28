@@ -74,32 +74,33 @@ public class EventMain{
 
         // TODO: UNCOMMENT DO-WHILE & FILL IN WITH VALIDATION METHODS
 
+        // TODO: prompt for UUID & Validate
         System.out.println("Insert UUID [Optional]\n");
         String uuid = scanner.hasNext() ? scanner.next() : UUID.randomUUID().toString();
 
         String date = "";
-//        do {
+        do {
         System.out.println("Insert Event Date [YYYY-MM-DD]");
         date = scanner.next();
-//        } while (isValidDate(date));
+        } while (!EventValidator.validateDate(date));
 
         String time = "";
 //        do {
         System.out.println("Insert Event Time [HH:MM AM/PM]");
         time = scanner.next();
-//        } while (isValidTime(time));
+//        } while (!EventValidator.validateTime(time));
 
         String title = "";
-//        do {
+        do {
         System.out.println("Insert Event Title [Max. 255]");
         title = scanner.next();
-//        } while (isValidTitle(title));
+        } while (!EventValidator.validateTitle(title));
 
         String description = "";
-//        do {
+        do {
         System.out.println("Insert Event Description [Max. 600]");
         description = scanner.next();
-//        } while (isValidDescription(description));
+        } while (!EventValidator.validateDate(description));
 
         String email = "";
         do {
