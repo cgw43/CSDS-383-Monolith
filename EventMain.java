@@ -72,43 +72,69 @@ public class EventMain{
         System.out.println("You've selected to insert into the Events table.");
         System.out.println("Let's create a new Event!");
 
-        // TODO: UNCOMMENT DO-WHILE & FILL IN WITH VALIDATION METHODS
+        // UUID INPUT
+        String uuid = "";
+        int status;
+        boolean uuidSaved = false;
 
-        // TODO: prompt for UUID & Validate
-        System.out.println("Insert UUID [Optional]\n");
-        String uuid = scanner.hasNext() ? scanner.next() : UUID.randomUUID().toString();
+        do {
+            System.out.println("Insert UUID [Optional: To generate, enter VOID]\n");
+            uuid = scanner.next();
 
+            // save the result of the check
+            status = EventValidator.validateUUID(uuid);
+
+            // if VOID : generate UUID
+            if (status == 0) {
+                uuid = UUID.randomUUID().toString();
+                // if randomUUID already exists in DB
+                while (EventValidator.validateUUID(uuid) != 1){
+                    uuid = UUID.randomUUID().toString();
+                }
+            }
+
+            // if UUID Exists, or was just created, flag as true to exist
+           if (status != -1)
+                uuidSaved = true;
+
+        } while (uuidSaved);
+
+        // DATE INPUT
         String date = "";
         do {
         System.out.println("Insert Event Date [YYYY-MM-DD]");
         date = scanner.next();
         } while (!EventValidator.validateDate(date));
 
+        // TIME INPUT
         String time = "";
-//        do {
+        do {
         System.out.println("Insert Event Time [HH:MM AM/PM]");
         time = scanner.next();
-//        } while (!EventValidator.validateTime(time));
+        } while (!EventValidator.validateTime(time));
 
+        // TITLE INPUT
         String title = "";
         do {
         System.out.println("Insert Event Title [Max. 255]");
         title = scanner.next();
         } while (!EventValidator.validateTitle(title));
 
+        // DESCRIPTION INPUT
         String description = "";
         do {
         System.out.println("Insert Event Description [Max. 600]");
         description = scanner.next();
         } while (!EventValidator.validateDate(description));
 
+        // EMAIL INPUT
         String email = "";
         do {
         System.out.println("Insert Event Host's Email");
         email = scanner.next();
         } while (!ParticipantValidator.isValidEmail(email));
 
-        // TODO: insert method
+        // TODO: call add Event with set parameters
         addEvent();
     }
 
@@ -152,7 +178,7 @@ public class EventMain{
             System.out.println("A Events\nB Registered");
             table = scanner.next();
         }
-        while (isValidTable(table));    // TODO: dk if we want a whole method for this
+        while (!isValidTable(table));
 
         return Character.toUpperCase(table.charAt(0));
     }
@@ -163,11 +189,8 @@ public class EventMain{
         if (s.length() != 1)
             return false;
 
-        // if isn't A or B
-        if (Character.toUpperCase(s.charAt(0)) != 'A' || Character.toUpperCase(s.charAt(0)) != 'B' )
-            return false;
-
-        return true;
+        // return if user inputted A or B
+        return Character.toUpperCase(s.charAt(0)) == 'A' || Character.toUpperCase(s.charAt(0)) == 'B';
     }
 
     /* check for valid input (option) */

@@ -5,8 +5,13 @@ public class EventValidator {
     public EventValidator(){
     }
 
-    public void validateUUID (UUID eventUUID){
-
+    //TODO: hardcoded for Events - to generalize, add table input
+    public static int validateUUID (String s){
+        if (s.equals("VOID")){
+            return 0;
+        }
+        // TODO: url param?
+         return UUIDCheck.checkIfUUIDExists("", s, "Events") ? 1 : -1;
     }
 
     public static boolean validateDate (String date){
@@ -21,8 +26,8 @@ public class EventValidator {
 
     }
 
-    public static void validateTime (String time){
-
+    public static boolean validateTime (String time){
+        return true; // TODO:
     }
 
     public static boolean validateTitle (String eventTitle){

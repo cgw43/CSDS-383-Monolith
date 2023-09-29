@@ -31,6 +31,7 @@ public class UUIDCheck {
             if (resultSet.next() && resultSet.getInt(1) > 0) {
                 return true;
             } else {
+                System.out.println("UUID Not Found in Database.");
                 return false;
             }
         } catch (SQLException e) {
