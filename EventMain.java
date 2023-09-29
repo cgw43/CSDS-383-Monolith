@@ -125,7 +125,7 @@ public class EventMain{
         do {
         System.out.println("Insert Event Description [Max. 600]");
         description = scanner.next();
-        } while (!EventValidator.validateDate(description));
+        } while (!EventValidator.validateDescription(description));
 
         // EMAIL INPUT
         String email = "";
