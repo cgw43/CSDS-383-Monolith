@@ -82,13 +82,13 @@ public class EventMain{
             uuid = scanner.next();
 
             // save the result of the check
-            status = EventValidator.validateUUID(uuid);
+            status = Validator.isValidUUID(uuid, "Events");
 
             // if VOID : generate UUID
             if (status == 0) {
                 uuid = UUID.randomUUID().toString();
                 // if randomUUID already exists in DB
-                while (EventValidator.validateUUID(uuid) != 1){
+                while (Validator.isValidUUID(uuid, "Events") != 1){
                     uuid = UUID.randomUUID().toString();
                 }
             }
@@ -104,35 +104,35 @@ public class EventMain{
         do {
         System.out.println("Insert Event Date [YYYY-MM-DD]");
         date = scanner.next();
-        } while (!EventValidator.validateDate(date));
+        } while (!Validator.isValidDate(date));
 
         // TIME INPUT
         String time = "";
         do {
         System.out.println("Insert Event Time [HH:MM AM/PM]");
         time = scanner.next();
-        } while (!EventValidator.validateTime(time));
+        } while (!Validator.isValidTime(time));
 
         // TITLE INPUT
         String title = "";
         do {
         System.out.println("Insert Event Title [Max. 255]");
         title = scanner.next();
-        } while (!EventValidator.validateTitle(title));
+        } while (!Validator.isValidTitle(title));
 
         // DESCRIPTION INPUT
         String description = "";
         do {
         System.out.println("Insert Event Description [Max. 600]");
         description = scanner.next();
-        } while (!EventValidator.validateDescription(description));
+        } while (!Validator.isValidDescription(description));
 
         // EMAIL INPUT
         String email = "";
         do {
         System.out.println("Insert Event Host's Email");
         email = scanner.next();
-        } while (!ParticipantValidator.isValidEmail(email));
+        } while (!Validator.isValidEmail(email));
 
         // TODO: call add Event with set parameters
         addEvent();
@@ -142,28 +142,53 @@ public class EventMain{
         System.out.println("You've selected to insert into the Registered table.");
         System.out.println("Let's register a participant!");
 
-        // TODO: UNCOMMENT DO-WHILE & FILL IN WITH VALIDATION METHODS
+        // PARTICIPANT UUID INPUT
+        String participant_uuid  = "";
+        int status;
+        boolean uuidSaved = false;
 
-        System.out.println("Insert Participant UUID [Optional]\n");
-        String participant_uuid = scanner.hasNext() ? scanner.next() : UUID.randomUUID().toString();
+        do {
+            System.out.println("Insert Participate UUID [Optional: To generate, enter VOID]\n");
+            participant_uuid  = scanner.next();
 
+            // save the result of the check
+            status = Validator.isValidUUID(participant_uuid, "Participant");
+
+            // if VOID : generate UUID
+            if (status == 0) {
+                participant_uuid  = UUID.randomUUID().toString();
+                // if randomUUID already exists in DB
+                while (Validator.isValidUUID(participant_uuid, "Participant") != 1){
+                    participant_uuid  = UUID.randomUUID().toString();
+                }
+            }
+
+            // if UUID Exists, or was just created, flag as true to exist
+            if (status != -1)
+                uuidSaved = true;
+
+        } while (uuidSaved);
+
+        // EVENT UUID INPUT
         String event_UUID = "";
-//        do {
+        do {
         System.out.println("Insert Event ID [UUID]");
         event_UUID = scanner.next();
-//        } while (isValidEventId(event_UUID));
+        } while (Validator.isValidUUID(event_UUID, "Participants") != 1);
 
+        // NAME INPUT
         String name = "";
-//        do {
+        do {
         System.out.println("Insert Participant Name");
         name = scanner.next();
-//        } while (isValidName(name));
+        } while (!Validator.isValidName(name));
 
+        // EMAIL INPUT
         String email = "";
-//        do {
+        do {
         System.out.println("Insert Participant Email");
         email = scanner.next();
-//        } while (isValidEmail(email));
+        } while (Validator.isValidEmail(email));
 
         // TODO: insert method
         registerParticipant();

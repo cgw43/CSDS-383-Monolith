@@ -1,20 +1,17 @@
-import java.util.*;
 import java.util.regex.Pattern;
 
-public class EventValidator {
-    public EventValidator(){
-    }
+public class Validator {
 
-    //TODO: hardcoded for Events - to generalize, add table input
-    public static int validateUUID (String s){
+    //TODO: hardcoded for Events - to generalize
+    public static int isValidUUID(String s, String table){
         if (s.equals("VOID")){
             return 0;
         }
         // TODO: url param?
-         return UUIDCheck.checkIfUUIDExists("", s, "Events") ? 1 : -1;
+        return UUIDCheck.checkIfUUIDExists("", s, table) ? 1 : -1;
     }
 
-    public static boolean validateDate (String date){
+    public static boolean isValidDate(String date){
         if (date.length() > 10 || !date.matches("[\\d-]+")){
             return false;
         }
@@ -26,23 +23,27 @@ public class EventValidator {
 
     }
 
-    public static boolean validateTime (String time){
+    public static boolean isValidTime(String time){
         return true; // TODO:
     }
 
-    public static boolean validateTitle (String eventTitle){
+    public static boolean isValidTitle(String eventTitle){
         return eventTitle.length() <= 255;
     }
 
-    public static boolean validateDescription (String eventDescription){
+    public static boolean isValidDescription(String eventDescription){
         return eventDescription.length() <= 600;
     }
 
-    public static boolean validateHostEmail (String hostEmail){
+    public static boolean isValidEmail(String hostEmail){
         String EMAIL_PATTERN = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         return pattern.matcher(hostEmail).matches();
+    }
+
+    public static boolean isValidName(String name){
+        return name.length() <= 600 && name.length() != 0;
     }
 
 }
