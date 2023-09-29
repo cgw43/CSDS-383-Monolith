@@ -25,7 +25,7 @@ public class EventMain{
                 System.out.println("Enter the number associated with the action you'd like to complete: \n1 Insert\n2 View\n3 Quit");
                 option = scanner.next();
             }
-            while (!isValidOption(option));
+            while (!Validator.isValidOption(option));
 
             System.out.println("You picked option " + option + ".");
 
@@ -203,38 +203,9 @@ public class EventMain{
             System.out.println("A Events\nB Registered");
             table = scanner.next();
         }
-        while (!isValidTable(table));
+        while (!Validator.isValidTable(table));
 
         return Character.toUpperCase(table.charAt(0));
-    }
-
-    /* check for valid input (table) */
-    private static boolean isValidTable(String s){
-        // if not one character
-        if (s.length() != 1)
-            return false;
-
-        // return if user inputted A or B
-        return Character.toUpperCase(s.charAt(0)) == 'A' || Character.toUpperCase(s.charAt(0)) == 'B';
-    }
-
-    /* check for valid input (option) */
-    private static boolean isValidOption(String s){
-        // if not one character
-        if (s.length() != 1)
-            return false;
-
-        // if not a digit
-        if (!Character.isDigit(s.charAt(0)))
-            return false;
-
-        // if not a digit in bounds (will never be negative)
-        if (Integer.parseInt(s) > 3) {
-            System.out.println("INVALID OPTION");
-            return false;
-        }
-
-        return true;
     }
 
     /* Validates entry and creates an event in Events table */

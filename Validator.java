@@ -2,7 +2,6 @@ import java.util.regex.Pattern;
 
 public class Validator {
 
-    //TODO: hardcoded for Events - to generalize
     public static int isValidUUID(String s, String table){
         if (s.equals("VOID")){
             return 0;
@@ -46,4 +45,33 @@ public class Validator {
         return name.length() <= 600 && name.length() != 0;
     }
 
+
+    /* check for valid input (table) */
+    public static boolean isValidTable(String s){
+        // if not one character
+        if (s.length() != 1)
+            return false;
+
+        // return if user inputted A or B
+        return Character.toUpperCase(s.charAt(0)) == 'A' || Character.toUpperCase(s.charAt(0)) == 'B';
+    }
+
+    /* check for valid input (option) */
+    public static boolean isValidOption(String s){
+        // if not one character
+        if (s.length() != 1)
+            return false;
+
+        // if not a digit
+        if (!Character.isDigit(s.charAt(0)))
+            return false;
+
+        // if not a digit in bounds (will never be negative)
+        if (Integer.parseInt(s) > 3) {
+            System.out.println("INVALID OPTION");
+            return false;
+        }
+
+        return true;
+    }
 }
