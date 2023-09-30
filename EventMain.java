@@ -9,6 +9,9 @@ public class EventMain{
         //validate entry
 
         //SQL command to insert
+
+        // INSERT INTO table (column1,column2 ,..)
+        // VALUES( value1,	value2 ,...);
     }
    
     /* Validates entry and creates a participant in Participants table */
