@@ -6,6 +6,9 @@ public class Validator {
         if (s.equals("VOID")){
             return 0;
         }
+
+        if (!validateUUID(s))
+            return -1;
         // attr name based on table
         String attrName = "uuid";
 
@@ -16,10 +19,19 @@ public class Validator {
         if (s.equals("VOID")){
             return 0;
         }
+
+        if (!validateUUID(s))
+            return -1;
+
         // attr name based on table
         String attrName = table.equals("event") ? "uuid" : "eventID";
 
         return db.checkIfUUIDExists(s, table, attrName) ? 1 : -1;
+    }
+
+    public static boolean validateUUID(String uuid) {
+        Pattern pattern = Pattern.compile("^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$");
+        return pattern.matcher(uuid).matches();
     }
 
     public static boolean isValidDate(String date){
