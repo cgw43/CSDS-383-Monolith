@@ -2,12 +2,24 @@ import java.util.regex.Pattern;
 
 public class Validator {
 
-    public static int isValidUUID(String s, String table){
+    public static int isValidParticipantUUID(EventsDB db, String s, String table){
         if (s.equals("VOID")){
             return 0;
         }
-        // TODO: url param?
-        return EventsDB.checkIfUUIDExists("", s, table) ? 1 : -1;
+        // attr name based on table
+        String attrName = "uuid";
+
+        return db.checkIfUUIDExists(s, table, attrName ) ? 1 : -1;
+    }
+
+    public static int isValidEventUUID(EventsDB db, String s, String table) {
+        if (s.equals("VOID")){
+            return 0;
+        }
+        // attr name based on table
+        String attrName = table.equals("event") ? "uuid" : "eventID";
+
+        return db.checkIfUUIDExists(s, table, attrName) ? 1 : -1;
     }
 
     public static boolean isValidDate(String date){

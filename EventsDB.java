@@ -123,16 +123,21 @@ public class EventsDB {
 
     }
 
-    public static boolean checkIfUUIDExists(String url, String uuidString, String table) {
+    public boolean checkIfUUIDExists(String uuidString, String table, String uuid){
 
-        Connection connection = null;
+        // Connect to the SQLite database
+        if (connection == null) {
+            try {
+                getConnection();
+            } catch (SQLException e) {
+                System.out.println("Something went wrong: Could not check for UUID.");
+                return false;
+            }
+        }
 
+        // Counts the number of uuidString in the database
+        String sql = "SELECT COUNT(*) FROM " + table + " WHERE "+ uuid +" = ?";
         try {
-            // Connect to the SQLite database
-            connection = DriverManager.getConnection(url);
-
-            // Counts the number of uuidString in the database
-            String sql = "SELECT COUNT(*) FROM " + table + " WHERE eventuuid = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, uuidString);
 
@@ -146,17 +151,10 @@ public class EventsDB {
                 System.out.println("UUID Not Found in Database.");
                 return false;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }
+        catch (SQLException e){
+            System.out.println("Something went wrong: Could not check for UUID.");
             return false;
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 

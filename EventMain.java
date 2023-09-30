@@ -48,7 +48,7 @@ public class EventMain{
             db.closeConnection();
         }
         catch (SQLException e){
-            
+
         }
     }
 
@@ -88,13 +88,13 @@ public class EventMain{
             uuid = scanner.next();
 
             // save the result of the check
-            status = Validator.isValidUUID(uuid, "Events");
+            status = Validator.isValidEventUUID(db, uuid, "events");
 
             // if VOID : generate UUID
             if (status == 0) {
                 uuid = UUID.randomUUID().toString();
                 // if randomUUID already exists in DB
-                while (Validator.isValidUUID(uuid, "Events") != 1){
+                while (Validator.isValidEventUUID(db, uuid, "events") != 1){
                     uuid = UUID.randomUUID().toString();
                 }
             }
@@ -157,13 +157,13 @@ public class EventMain{
             participant_uuid  = scanner.next();
 
             // save the result of the check
-            status = Validator.isValidUUID(participant_uuid, "Participant");
+            status = Validator.isValidParticipantUUID(db, participant_uuid, "participants");
 
             // if VOID : generate UUID
             if (status == 0) {
                 participant_uuid  = UUID.randomUUID().toString();
                 // if randomUUID already exists in DB
-                while (Validator.isValidUUID(participant_uuid, "Participant") != 1){
+                while (Validator.isValidParticipantUUID(db, participant_uuid, "participants") != 1){
                     participant_uuid  = UUID.randomUUID().toString();
                 }
             }
@@ -179,7 +179,7 @@ public class EventMain{
         do {
         System.out.println("Insert Event ID [UUID]");
         event_UUID = scanner.next();
-        } while (Validator.isValidUUID(event_UUID, "Participants") != 1);
+        } while (Validator.isValidEventUUID(db, event_UUID, "participants") != 1);
 
         // NAME INPUT
         String name = "";
