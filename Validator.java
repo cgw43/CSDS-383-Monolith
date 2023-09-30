@@ -7,7 +7,7 @@ public class Validator {
             return 0;
         }
         // TODO: url param?
-        return UUIDCheck.checkIfUUIDExists("", s, table) ? 1 : -1;
+        return EventsDB.checkIfUUIDExists("", s, table) ? 1 : -1;
     }
 
     public static boolean isValidDate(String date){
