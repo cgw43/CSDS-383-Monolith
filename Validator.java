@@ -24,7 +24,7 @@ public class Validator {
             return -1;
 
         // attr name based on table
-        String attrName = table.equals("event") ? "uuid" : "eventID";
+        String attrName = table.equals("events") ? "uuid" : "eventID";
 
         return db.checkIfUUIDExists(s, table, attrName) ? 1 : -1;
     }
