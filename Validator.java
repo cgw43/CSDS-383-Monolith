@@ -50,7 +50,7 @@ public class Validator {
 
     public static boolean isValidTime(String time){
         String[] extractTime = time.split(" ");
-        if (extractTime.length != 2 || !extractTime[1].equals("AM") || !extractTime[1].equals("PM")){
+        if (extractTime.length != 2 || !(extractTime[1].equals("AM") || extractTime[1].equals("PM"))){
             return false;
         }
         String[] hoursMinutes = extractTime[0].split(":");
