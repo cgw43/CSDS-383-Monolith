@@ -1,7 +1,7 @@
 import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.UUID;
-
+import java.sql.*;
 
 /*
  * Class interacts directly with the command-line,
@@ -134,8 +134,7 @@ public class EventMain{
         email = scanner.next();
         } while (!Validator.isValidEmail(email));
 
-        // TODO: call add Event with set parameters
-        addEvent();
+        addEvent(uuid, date, time, title, description, email);
     }
 
     private static void newParticipant(Scanner scanner){
@@ -190,8 +189,7 @@ public class EventMain{
         email = scanner.next();
         } while (Validator.isValidEmail(email));
 
-        // TODO: insert method
-        registerParticipant();
+        registerParticipant(participant_uuid, event_UUID, name, email); 
     }
 
     /* CLI sequence for determining table */
@@ -208,21 +206,24 @@ public class EventMain{
         return Character.toUpperCase(table.charAt(0));
     }
 
-    /* Validates entry and creates an event in Events table */
-    public static void addEvent(){
-        //validate entry
-
-        //SQL command to insert
-
-        // INSERT INTO table (column1,column2 ,..)
-        // VALUES( value1,	value2 ,...);
+    /* Adds an event in Events table */
+    public static void addEvent(String uuid, String date, String time, String title, String description, String email) {
+        try {
+            db.createEvent(uuid, date, time, title, description, email );
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            System.out.println("Unable to add event, please try again");
+        }
     }
-   
+    
     /* Validates entry and creates a participant in Participants table */
-    public static void registerParticipant(){
-        //validate entry
-
-        //SQL command to insert
+    public static void registerParticipant(String participant_uuid, String event_UUID, String name, String email){
+        try {
+            db. registerParticipant(participant_uuid, event_UUID, name, email);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            System.out.println("Unable to register participant, please try again");
+        }
     }
 
     /* Returns a table of participants currently registered */
@@ -234,7 +235,6 @@ public class EventMain{
             throwables.printStackTrace();
             System.out.println("SOMETHING WENT WRONG!!!!!");
         }
-
     }
 
     /* Returns a table of participants currently registered */
