@@ -157,20 +157,4 @@ public class EventsDB {
             return false;
         }
     }
-
-
-    public static void main(String[] args) {
-        EventsDB test = new EventsDB();
-        try {
-            // Examples of the possible queries
-            //test.createEvent("testid", "09-22-2023", "12:00 PM", "Test Event", "Test Event Description", "test@gmail.com");
-            //test.registerParticipant("participantID", "testid", "Test Participant", "participant@event.com");
-            //test.getEvents();
-            //test.getParticipants();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
 }
