@@ -27,15 +27,25 @@ public class Validator {
             return false;
         }
         String[] dateValues = date.split("-");
+        if  (dateValues.length != 3){
+            return false;
+        }
         int year = Integer.parseInt(dateValues[0]);
         int month = Integer.parseInt(dateValues[1]);
         int day = Integer.parseInt(dateValues[2]);
-        return year <= 9999 && month <= 12 && day <= 31;
-
+        return year > 0 && year <= 9999 && month >= 1 && month <= 12 && day >= 1 && day <= 31;
     }
 
     public static boolean isValidTime(String time){
-        return true; // TODO:
+        String[] extractTime = time.split(" ");
+        if (extractTime.length != 2 || !extractTime[1].equals("AM") || !extractTime[1].equals("PM")){
+            return false;
+        }
+        String[] hoursMinutes = extractTime[0].split(":");
+        if (hoursMinutes.length != 2 || hoursMinutes[1].length() != 2) return false;
+        int hour = Integer.parseInt(hoursMinutes[0]);
+        int minutes = Integer.parseInt(hoursMinutes[1]);
+        return hour > 0 && hour <= 12 && minutes >= 0 && minutes <= 59;
     }
 
     public static boolean isValidTitle(String eventTitle){
