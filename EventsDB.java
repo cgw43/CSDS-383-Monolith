@@ -10,6 +10,10 @@ public class EventsDB {
         initialize();
     }
 
+    public void closeConnection() throws SQLException {
+        connection.close();
+    }
+
     /*
      * Gets all events from events table and prints
      */
@@ -96,11 +100,11 @@ public class EventsDB {
      * Prints input result set in a readable way (hopefully)
      */
     public void printReslultSet(ResultSet res) {
-        
+
         try {
             ResultSetMetaData meta = res.getMetaData();
             int cols = meta.getColumnCount();
-            
+
             // Build a string for each row and print until none left
             while (res.next()) {
                 StringBuilder builder = new StringBuilder();
@@ -110,13 +114,13 @@ public class EventsDB {
                     builder.append(res.getString(i));
                     builder.append("   ");
                 }
-                
+
                 System.out.println(builder.toString());
             }
         } catch (Exception e) {
             System.out.println("Error printing results");
         }
-        
+
     }
 
     public static boolean checkIfUUIDExists(String url, String uuidString, String table) {

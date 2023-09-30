@@ -43,6 +43,13 @@ public class EventMain{
             }
         }
         while (EventMain.option != 3);
+
+        try {
+            db.closeConnection();
+        }
+        catch (SQLException e){
+            
+        }
     }
 
     /* CLI sequence for insertion */
