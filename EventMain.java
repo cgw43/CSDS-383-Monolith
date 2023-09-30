@@ -1,7 +1,6 @@
 import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.UUID;
-import java.sql.*;
 
 /*
  * Class interacts directly with the command-line,
