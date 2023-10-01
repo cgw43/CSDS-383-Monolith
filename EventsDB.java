@@ -6,7 +6,7 @@ public class EventsDB {
     private boolean hasData = false;
 
     public void getConnection() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:sqlite:EventsDB");
+        connection = DriverManager.getConnection("jdbc:sqlite:./database/EventsDB");
         initialize();
     }
 
@@ -34,7 +34,7 @@ public class EventsDB {
             getConnection();
         }
         Statement st = connection.createStatement();
-        ResultSet res = st.executeQuery("SELECT participants.*, title FROM participants, events WHERE events.uuid = participants.eventID");
+        ResultSet res = st.executeQuery("SELECT participants.*, title as event_title FROM participants, events WHERE events.uuid = participants.eventID");
         printReslultSet(res);
     }
 
@@ -91,9 +91,6 @@ public class EventsDB {
             Statement st4 = connection.createStatement();
             st4.execute("CREATE TABLE participants(uuid VARCHAR(36) PRIMARY KEY, eventID VARCHAR(36), name CHAR(600), email VARCHAR(300), FOREIGN KEY (eventID) REFERENCES events(uuid));");
         }
-       // Sample data
-       // st1.execute("INSERT INTO events values('uuid', '12-12-2023', '12:00 AM', 'My first event', 'description of my first event', 'cgw43@case.edu');");
-       // st1.execute("INSERT INTO participants values('personid', 'uuid', 'callie wells', 'callie@email.com')");
     }
 
     /*
@@ -120,8 +117,8 @@ public class EventsDB {
         } catch (Exception e) {
             System.out.println("Error printing results");
         }
-
     }
+
 
     public boolean checkIfUUIDExists(String uuidString, String table, String uuid){
 
@@ -134,6 +131,7 @@ public class EventsDB {
                 return false;
             }
         }
+
 
         // Counts the number of uuidString in the database
         String sql = "SELECT COUNT(*) FROM " + table + " WHERE "+ uuid +" = ?";
