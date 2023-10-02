@@ -120,39 +120,65 @@ public class EventsDB {
         System.out.println();
     }
 
+    public boolean checkIfEventUUIDExists(String uuid) {
+        try {
+            if (connection == null) {
+                getConnection();
+            }
 
-    public boolean checkIfUUIDExists(String uuidString, String table, String uuid){
+            PreparedStatement prep = connection.prepareStatement("SELECT uuid FROM events WHERE events.uuid = ?");
+            prep.setString(1, uuid);
+            ResultSet res = prep.executeQuery();
+           
+            // if there is a next, uuid exists in db
+            if (res.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong: Could not validate UUID");
+            return false;
+        }
+    }
+
+    public boolean checkIfUUIDExists(String uuidString){
 
         // Connect to the SQLite database
         if (connection == null) {
             try {
                 getConnection();
             } catch (SQLException e) {
-                System.out.println("Something went wrong: Could not check for UUID.");
+                System.out.println("Something went wrong: Could not validate UUID.");
                 return false;
             }
         }
 
 
-        // Counts the number of uuidString in the database
-        String sql = "SELECT COUNT(*) FROM " + table + " WHERE "+ uuid +" = ?";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT uuid FROM participants WHERE uuid = ?");
+            
             preparedStatement.setString(1, uuidString);
 
             // Execute the query
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            // If count of uuid is above 0, then uuid exists
-            if (resultSet.next() && resultSet.getInt(1) > 0) {
+            // if there is a next, uuid exists in db
+            if (resultSet.next()) {
                 return true;
             } else {
-                System.out.println("UUID Not Found in Database.");
                 return false;
             }
+            // If count of uuid is above 0, then uuid exists
+            // if (!resultSet.next()) {
+            //     System.out.println("UUID not found in database");
+            //     return false;
+            // } else {
+            //     System.out.println("UUID found in Database.");
+            //     return true;
+            // }
         }
         catch (SQLException e){
-            System.out.println("Something went wrong: Could not check for UUID.");
+            System.out.println("Something went wrong: Could not validate UUID.");
             return false;
         }
     }

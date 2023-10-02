@@ -6,7 +6,7 @@ import java.util.UUID;
  * Class interacts directly with the command-line,
  * holds functions that call validator and SQLite functions.
  */
-public class EventMain{
+public class EventMain {
 
     private static EventsDB db = new EventsDB();
     private static int option;
@@ -15,16 +15,16 @@ public class EventMain{
 
         System.out.println("Greetings!\nWelcome to the ARCHITECT'S rockin, bussin, Monolithic Application");
         Scanner scanner = new Scanner(System.in);
-        String option ;
+        String option;
 
         // until the user quits
         do {
             // continually prompt for VALID action
             do {
-                System.out.println("Enter the number associated with the action you'd like to complete: \n1 Insert\n2 View\n3 Quit");
+                System.out.println(
+                        "Enter the number associated with the action you'd like to complete: \n1 Insert\n2 View\n3 Quit");
                 option = scanner.nextLine();
-            }
-            while (!Validator.isValidOption(option));
+            } while (!Validator.isValidOption(option));
 
             System.out.println("You picked option " + option + ".");
 
@@ -41,19 +41,17 @@ public class EventMain{
                     System.out.println("See you later!!!");
                     break;
             }
-        }
-        while (EventMain.option != 3);
+        } while (EventMain.option != 3);
 
         try {
             db.closeConnection();
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
 
         }
     }
 
     /* CLI sequence for insertion */
-    private static void insert(Scanner scanner){
+    private static void insert(Scanner scanner) {
         // figure out which table
         Character table = tablePrompt(scanner);
         if (table == 'A')
@@ -63,7 +61,7 @@ public class EventMain{
     }
 
     /* CLI sequence for viewing */
-    private static void view(Scanner scanner){
+    private static void view(Scanner scanner) {
         // figure out which table
         Character table = tablePrompt(scanner);
         if (table == 'A')
@@ -73,39 +71,39 @@ public class EventMain{
 
     }
 
-    private static void newEvent(Scanner scanner){
+    private static void newEvent(Scanner scanner) {
 
         System.out.println("You've selected to insert into the Events table.");
         System.out.println("Let's create a new Event!");
 
         // UUID INPUT
         String uuid = "";
-        int status;
-        boolean uuidSaved = false;
+        boolean status = false;
+        boolean generate = false;
 
         do {
-            System.out.println("Insert UUID [Optional: To generate, enter VOID]\n");
+            System.out.println("Insert UUID [Optional: To generate, enter VOID]");
             uuid = scanner.nextLine();
 
+            if (uuid.equals("VOID")) {
+                generate = true;
+            }
             // save the result of the check
-            status = Validator.isValidEventUUID(db, uuid, "events");
-
-            // if VOID : generate UUID
-            if (status == 0) {
-                uuid = UUID.randomUUID().toString();
-                // if randomUUID already exists in DB, generate new one
-                while (Validator.isValidEventUUID(db, uuid, "events") != -1){
-                    uuid = UUID.randomUUID().toString();
-                }
-                uuidSaved = false;
-                System.out.println("Generated UUID: "+uuid);
+            if (!generate) {
+                status = Validator.isValidEventUUID(db, uuid, "events");
             }
 
-            // if UUID Exists, or was just created, flag as true to exist
-           else if (status != -1)
-                uuidSaved = true;
+            // if VOID : generate UUID
+            if (generate) {
+                // if randomUUID already exists in DB, generate new one
+                while (!status) {
+                    uuid = UUID.randomUUID().toString();
+                    status = Validator.isValidEventUUID(db, uuid, "events");
+                }
+                System.out.println("Generated UUID: " + uuid);
+            }
 
-        } while (uuidSaved);
+        } while (!status);
 
         // DATE INPUT
         String date = "";
@@ -145,45 +143,45 @@ public class EventMain{
         addEvent(uuid, date, time, title, description, email);
     }
 
-    private static void newParticipant(Scanner scanner){
+    private static void newParticipant(Scanner scanner) {
         System.out.println("You've selected to insert into the Registered table.");
         System.out.println("Let's register a participant!");
 
         // PARTICIPANT UUID INPUT
-        String participant_uuid  = "";
-        int status;
-        boolean uuidSaved = false;
+        String participant_uuid = "";
+        boolean status = false;
+        boolean generate = false;
 
         do {
-            System.out.println("Insert Participate UUID [Optional: To generate, enter VOID]\n");
-            participant_uuid  = scanner.nextLine();
+            System.out.println("Insert Participate UUID [Optional: To generate, enter VOID]");
+            participant_uuid = scanner.nextLine();
 
+            if (participant_uuid.equals("VOID")) {
+                generate = true;
+            }
             // save the result of the check
-            status = Validator.isValidParticipantUUID(db, participant_uuid, "participants");
-
-            // if VOID : generate UUID
-            if (status == 0) {
-                participant_uuid  = UUID.randomUUID().toString();
-                // if randomUUID already exists in DB
-                while (Validator.isValidEventUUID(db, participant_uuid, "events") != -1){
-                    participant_uuid = UUID.randomUUID().toString();
-                }
-                uuidSaved = false;
-                System.out.println("Generated Participant UUID: "+participant_uuid);
+            if (!generate) {
+                status = Validator.isValidParticipantUUID(db, participant_uuid, "participants");
             }
 
-            // if UUID Exists, or was just created, flag as true to exist
-            if (status != -1)
-                uuidSaved = true;
+            // if VOID : generate UUID
+            if (generate) {
+                // if randomUUID already exists in DB
+                while (!status) {
+                    participant_uuid = UUID.randomUUID().toString();
+                    status = Validator.isValidParticipantUUID(db, participant_uuid, "events");
+                }
+                System.out.println("Generated Participant UUID: " + participant_uuid);
+            }
 
-        } while (uuidSaved);
+        } while (!status);
 
         // EVENT UUID INPUT
         String event_UUID = "";
         do {
             System.out.println("Insert Event ID [UUID]");
             event_UUID = scanner.nextLine();
-        } while (Validator.isValidEventUUID(db, event_UUID, "participants") != 1);
+        } while (!Validator.isValidEventUUID(db, event_UUID, "participants"));
 
         // NAME INPUT
         String name = "";
@@ -197,21 +195,21 @@ public class EventMain{
         do {
             System.out.println("Insert Participant Email");
             email = scanner.nextLine();
-        } while (Validator.isValidEmail(email));
+        } while (!Validator.isValidEmail(email));
 
-        registerParticipant(participant_uuid, event_UUID, name, email); 
+        registerParticipant(participant_uuid, event_UUID, name, email);
     }
 
     /* CLI sequence for determining table */
-    private static Character tablePrompt(Scanner scanner){
+    private static Character tablePrompt(Scanner scanner) {
         String table = "";
         // continually prompt for VALID table selection
         do {
-            System.out.println("Pick a table you'd like to access. Enter the letter associated with the table you'd like to access:");
+            System.out.println(
+                    "Pick a table you'd like to access. Enter the letter associated with the table you'd like to access:");
             System.out.println("A Events\nB Registered");
             table = scanner.nextLine();
-        }
-        while (!Validator.isValidTable(table));
+        } while (!Validator.isValidTable(table));
 
         return Character.toUpperCase(table.charAt(0));
     }
@@ -219,41 +217,41 @@ public class EventMain{
     /* Adds an event in Events table */
     public static void addEvent(String uuid, String date, String time, String title, String description, String email) {
         try {
-            db.createEvent(uuid, date, time, title, description, email );
+            db.createEvent(uuid, date, time, title, description, email);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+           // throwables.printStackTrace();
             System.out.println("Unable to add event, please try again");
         }
     }
-    
+
     /* Validates entry and creates a participant in Participants table */
-    public static void registerParticipant(String participant_uuid, String event_UUID, String name, String email){
+    public static void registerParticipant(String participant_uuid, String event_UUID, String name, String email) {
         try {
-            db. registerParticipant(participant_uuid, event_UUID, name, email);
+            db.registerParticipant(participant_uuid, event_UUID, name, email);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            //throwables.printStackTrace();
             System.out.println("Unable to register participant, please try again");
         }
     }
 
     /* Returns a table of participants currently registered */
-    public static void viewEvents(){
-        //SQL command to view table
+    public static void viewEvents() {
+        // SQL command to view table
         try {
             db.getEvents();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            //throwables.printStackTrace();
             System.out.println("SOMETHING WENT WRONG!!!!!");
         }
     }
 
     /* Returns a table of participants currently registered */
-    public static void viewParticipants(){
-        //SQL command to view table
+    public static void viewParticipants() {
+        // SQL command to view table
         try {
             db.getParticipants();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            //throwables.printStackTrace();
             System.out.println("SOMETHING WENT WRONG!!!!!");
         }
     }
