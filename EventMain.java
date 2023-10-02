@@ -241,7 +241,7 @@ public class EventMain {
             db.getEvents();
         } catch (SQLException throwables) {
             //throwables.printStackTrace();
-            System.out.println("SOMETHING WENT WRONG!!!!!");
+            System.out.println("Unable to view events, please try again");
         }
     }
 
@@ -252,7 +252,7 @@ public class EventMain {
             db.getParticipants();
         } catch (SQLException throwables) {
             //throwables.printStackTrace();
-            System.out.println("SOMETHING WENT WRONG!!!!!");
+            System.out.println("Unable to view participants, please try again");
         }
     }
 }

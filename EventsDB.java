@@ -1,5 +1,9 @@
 import java.sql.*;
 
+/*
+ * Class interacts directly with the SQLite DB,
+ * holds functions that will access, read, or write to/from the DB
+ */
 public class EventsDB {
     
     private Connection connection;
@@ -149,7 +153,7 @@ public class EventsDB {
             try {
                 getConnection();
             } catch (SQLException e) {
-                System.out.println("Something went wrong: Could not validate UUID.");
+                System.out.println("Could not connect to DB- Could not validate UUID. Please try again.");
                 return false;
             }
         }
@@ -178,7 +182,7 @@ public class EventsDB {
             // }
         }
         catch (SQLException e){
-            System.out.println("Something went wrong: Could not validate UUID.");
+            System.out.println("Could not execute search - could not validate UUID. Please try again");
             return false;
         }
     }

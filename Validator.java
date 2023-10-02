@@ -1,6 +1,9 @@
 import java.util.regex.Pattern;
-import java.util.UUID;
 
+/*
+ * Class validates user inputs,
+ * holds functions that will pre-check fields before accessing the DB
+ */
 public class Validator {
 
     public static boolean isValidParticipantUUID(EventsDB db, String s, String table){
