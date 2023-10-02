@@ -101,7 +101,7 @@ public class EventsDB {
         try {
             ResultSetMetaData meta = res.getMetaData();
             int cols = meta.getColumnCount();
-
+            System.out.println();
             // Build a string for each row and print until none left
             while (res.next()) {
                 StringBuilder builder = new StringBuilder();
@@ -117,6 +117,7 @@ public class EventsDB {
         } catch (Exception e) {
             System.out.println("Error printing results");
         }
+        System.out.println();
     }
 
 

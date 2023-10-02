@@ -22,7 +22,7 @@ public class EventMain{
             // continually prompt for VALID action
             do {
                 System.out.println("Enter the number associated with the action you'd like to complete: \n1 Insert\n2 View\n3 Quit");
-                option = scanner.next();
+                option = scanner.nextLine();
             }
             while (!Validator.isValidOption(option));
 
@@ -85,7 +85,7 @@ public class EventMain{
 
         do {
             System.out.println("Insert UUID [Optional: To generate, enter VOID]\n");
-            uuid = scanner.next();
+            uuid = scanner.nextLine();
 
             // save the result of the check
             status = Validator.isValidEventUUID(db, uuid, "events");
@@ -111,35 +111,35 @@ public class EventMain{
         String date = "";
         do {
             System.out.println("Insert Event Date [YYYY-MM-DD]");
-            date = scanner.next();
+            date = scanner.nextLine();
         } while (!Validator.isValidDate(date));
 
         // TIME INPUT
         String time = "";
         do {
             System.out.println("Insert Event Time [HH:MM AM/PM]");
-            time = scanner.next();
+            time = scanner.nextLine();
         } while (!Validator.isValidTime(time));
 
         // TITLE INPUT
         String title = "";
         do {
             System.out.println("Insert Event Title [Max. 255]");
-            title = scanner.next();
+            title = scanner.nextLine();
         } while (!Validator.isValidTitle(title));
 
         // DESCRIPTION INPUT
         String description = "";
         do {
             System.out.println("Insert Event Description [Max. 600]");
-            description = scanner.next();
+            description = scanner.nextLine();
         } while (!Validator.isValidDescription(description));
 
         // EMAIL INPUT
         String email = "";
         do {
             System.out.println("Insert Event Host's Email");
-            email = scanner.next();
+            email = scanner.nextLine();
         } while (!Validator.isValidEmail(email));
 
         addEvent(uuid, date, time, title, description, email);
@@ -156,7 +156,7 @@ public class EventMain{
 
         do {
             System.out.println("Insert Participate UUID [Optional: To generate, enter VOID]\n");
-            participant_uuid  = scanner.next();
+            participant_uuid  = scanner.nextLine();
 
             // save the result of the check
             status = Validator.isValidParticipantUUID(db, participant_uuid, "participants");
@@ -182,21 +182,21 @@ public class EventMain{
         String event_UUID = "";
         do {
             System.out.println("Insert Event ID [UUID]");
-            event_UUID = scanner.next();
+            event_UUID = scanner.nextLine();
         } while (Validator.isValidEventUUID(db, event_UUID, "participants") != 1);
 
         // NAME INPUT
         String name = "";
         do {
             System.out.println("Insert Participant Name");
-            name = scanner.next();
+            name = scanner.nextLine();
         } while (!Validator.isValidName(name));
 
         // EMAIL INPUT
         String email = "";
         do {
             System.out.println("Insert Participant Email");
-            email = scanner.next();
+            email = scanner.nextLine();
         } while (Validator.isValidEmail(email));
 
         registerParticipant(participant_uuid, event_UUID, name, email); 
@@ -209,7 +209,7 @@ public class EventMain{
         do {
             System.out.println("Pick a table you'd like to access. Enter the letter associated with the table you'd like to access:");
             System.out.println("A Events\nB Registered");
-            table = scanner.next();
+            table = scanner.nextLine();
         }
         while (!Validator.isValidTable(table));
 
