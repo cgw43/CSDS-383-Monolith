@@ -153,7 +153,7 @@ public class EventMain {
         boolean generate = false;
 
         do {
-            System.out.println("Insert Participate UUID [Optional: To generate, enter VOID]");
+            System.out.println("Insert Participant UUID [Optional: To generate, enter VOID]");
             participant_uuid = scanner.nextLine();
 
             if (participant_uuid.equals("VOID")) {
