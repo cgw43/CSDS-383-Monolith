@@ -7,35 +7,26 @@ import java.util.regex.Pattern;
 public class Validator {
 
     public static boolean isValidParticipantUUID(EventsDB db, String s, String table){
-        // if (s.equals("VOID")){
-        //     return 0;
-        // }
-
         if (!validateUUID(s))
             return false;
-        // attr name based on table
 
         return !db.checkIfUUIDExists(s);
     }
 
     public static boolean isValidEventUUID(EventsDB db, String s, String table) {
-        // if (s.equals("VOID")){
-        //     return 0;
-        // }
 
         if (!validateUUID(s))
             return false;
 
         // attr name based on table
         String attrName = table.equals("events") ? "uuid" : "eventID";
-       // System.out.println(attrName);
+
         if (attrName.equals("uuid")) {
             return !db.checkIfEventUUIDExists(s);
         } else { // Looking for eventID in events
             return db.checkIfEventUUIDExists(s);
         }
 
-        //return db.checkIfUUIDExists(s, table, attrName) ? -1 : 1;
     }
 
     public static boolean validateUUID(String uuid) {

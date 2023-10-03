@@ -141,7 +141,7 @@ public class EventsDB {
                 return false;
             }
         } catch (Exception e) {
-            System.out.println("Something went wrong: Could not validate UUID");
+            System.out.println("Something went wrong: Could not validate Event UUID");
             return false;
         }
     }
@@ -153,11 +153,10 @@ public class EventsDB {
             try {
                 getConnection();
             } catch (SQLException e) {
-                System.out.println("Could not connect to DB- Could not validate UUID. Please try again.");
+                System.out.println("Could not connect to DB- Could not validate Participant UUID. Please try again.");
                 return false;
             }
         }
-
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT uuid FROM participants WHERE uuid = ?");
@@ -172,17 +171,10 @@ public class EventsDB {
             } else {
                 return false;
             }
-            // If count of uuid is above 0, then uuid exists
-            // if (!resultSet.next()) {
-            //     System.out.println("UUID not found in database");
-            //     return false;
-            // } else {
-            //     System.out.println("UUID found in Database.");
-            //     return true;
-            // }
+
         }
         catch (SQLException e){
-            System.out.println("Could not execute search - could not validate UUID. Please try again");
+            System.out.println("Could not execute search - could not validate participant UUID. Please try again");
             return false;
         }
     }
