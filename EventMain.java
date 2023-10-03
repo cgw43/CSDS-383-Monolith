@@ -13,7 +13,7 @@ public class EventMain {
 
     public static void main(String[] args) {
 
-        System.out.println("Greetings!\nWelcome to the ARCHITECT'S rockin, bussin, Monolithic Application");
+        System.out.println("Greetings!\nWelcome to the ARCHITECT'S Monolithic Event Planning Application");
         Scanner scanner = new Scanner(System.in);
         String option;
 
@@ -219,7 +219,7 @@ public class EventMain {
         try {
             db.createEvent(uuid, date, time, title, description, email);
         } catch (SQLException throwables) {
-           // throwables.printStackTrace();
+            //throwables.printStackTrace();
             System.out.println("Unable to add event, please try again");
         }
     }

@@ -8,7 +8,6 @@ public class EventsDB {
     
     private Connection connection;
     private boolean hasData = false;
-
     public void getConnection() throws SQLException {
         connection = DriverManager.getConnection("jdbc:sqlite:./database/EventsDB");
         initialize();
