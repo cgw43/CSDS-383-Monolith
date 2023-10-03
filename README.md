@@ -1,7 +1,7 @@
 # CSDS-383-Monolith
 Team: The Architects
 ## Running jar
-1. Download the CSDS-383-Monolith.jar file from our assignment submission
+1. Download the CSDS-383-Monolith.jar file from our assignment submission or from this [link](https://drive.google.com/file/d/1ypaEscT1bDxYBhU1I2F270amN-WcKuLK/view)
 2. Make sure you have java downloaded and setup on your machine.
 3. If you machine has auto-run configured for jar files, double click on the file to start the app.
 4. Otherwise, open the terminal/command line to the location where the jar is saved and run this command: java -jar CSDS-383-Monolith.jar
