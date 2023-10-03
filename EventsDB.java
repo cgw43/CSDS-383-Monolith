@@ -14,7 +14,9 @@ public class EventsDB {
     }
 
     public void closeConnection() throws SQLException {
-        connection.close();
+        if (connection != null) {
+            connection.close();
+        }
     }
 
     /*
